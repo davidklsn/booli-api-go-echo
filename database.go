@@ -41,7 +41,7 @@ func GetUsers() ([]UserData, error) {
 	return usersData, nil
 }
 
-// GetUser retrieves a product from the database given its ID
+// Retrieve a user from the database given its ID
 func GetUser(id string) (UserData, error) {
 	var userData UserData
 	result := DB.First(&userData, "user_id = ?", id)
@@ -90,6 +90,7 @@ func UpdateUser(id string, residenceId string, meta map[string]interface{}) (Use
 	return userData, nil
 }
 
+// Create new user
 func CreateUser(id string, residenceId string, meta map[string]interface{}) (UserData, error) {
 	var metaJSON datatypes.JSON
 	metaJSON, err := json.Marshal(meta)
@@ -113,6 +114,7 @@ func CreateUser(id string, residenceId string, meta map[string]interface{}) (Use
 	return userData, nil
 }
 
+// Delete exisiting user
 func DeleteUser(id string) (UserData, error) {
 	var userData UserData
 	if err := DB.First(&userData, "user_id = ?", id).Error; err != nil {
