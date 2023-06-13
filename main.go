@@ -22,9 +22,11 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 	g := e.Group("/user")
-	g.Use(middleware.KeyAuth(func(key string, c echo.Context) (bool, error) {
-		return key == os.Getenv("AUTH_KEY"), nil
-	}))
+	if os.Getenv("GO_ENV") == "production" {
+		g.Use(middleware.KeyAuth(func(key string, c echo.Context) (bool, error) {
+			return key == os.Getenv("AUTH_KEY"), nil
+		}))
+	}
 
 	g.GET("/:id", handleGetUser)
 	g.POST("/:id", handleCreateUser)
