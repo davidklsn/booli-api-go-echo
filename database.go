@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 
-	"gorm.io/datatypes"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -53,35 +52,33 @@ func GetUser(id string) (UserData, error) {
 	return userData, nil
 }
 
-func UpdateUser(id string, residenceId string, meta map[string]interface{}) (UserData, error) {
-	var userData UserData
-	if err := DB.First(&userData, "user_id = ?", id).Error; err != nil {
-		return UserData{}, err
-	}
-
-	var existingMeta map[string]interface{}
-
-	// Unmarshal existing data into map
-	if err := json.Unmarshal(userData.Meta, &existingMeta); err != nil {
-		return UserData{}, err
-	}
-
-	// Merge the two maps, meta overwrites existingMeta
-	for key, value := range meta {
-		existingMeta[key] = value
-	}
-
-	// Marshal the merged map back into JSON
-	updatedMeta, err := json.Marshal(existingMeta)
+// Create new user
+func CreateUser(id string, residence map[string]interface{}, activity map[string]interface{}, info map[string]interface{}) (UserData, error) {
+	residenceArray := []map[string]interface{}{residence}
+	
+	residencesJSON, err := json.Marshal(residenceArray)
 	if err != nil {
 		return UserData{}, err
 	}
 
-	// Update the data in the database
-	result := DB.Model(&userData).Updates(UserData{
-		Meta: updatedMeta,
-		ResidenceID: residenceId,
-	})
+	infoJSON, err := json.Marshal(info)
+	if err != nil {
+		return UserData{}, err
+	}
+
+	activityJSON, err := json.Marshal(activity)
+	if err != nil {
+		return UserData{}, err
+	}
+
+	userData := UserData{
+		UserID:       id,
+		Residences:   residencesJSON,
+		ActivityData: activityJSON,
+		CustomInfo:   infoJSON,
+	}
+
+	result := DB.Create(&userData)
 
 	if result.Error != nil {
 		return userData, result.Error
@@ -90,22 +87,34 @@ func UpdateUser(id string, residenceId string, meta map[string]interface{}) (Use
 	return userData, nil
 }
 
-// Create new user
-func CreateUser(id string, residenceId string, meta map[string]interface{}) (UserData, error) {
-	var metaJSON datatypes.JSON
-	metaJSON, err := json.Marshal(meta)
+func UpdateUser(id string, residence map[string]interface{}, activity map[string]interface{}) (UserData, error) {
+	var userData UserData
+	if err := DB.First(&userData, "user_id = ?", id).Error; err != nil {
+		return UserData{}, err
+	}
 
+	var existingActivity map[string]interface{}
+
+	// Unmarshal existing data into map
+	if err := json.Unmarshal(userData.ActivityData, &existingActivity); err != nil {
+		return UserData{}, err
+	}
+
+	// Merge the two maps, activity overwrites existingActivity
+	for key, value := range activity {
+		existingActivity[key] = value
+	}
+
+	// Marshal the merged map back into JSON
+	updatedActivity, err := json.Marshal(existingActivity)
 	if err != nil {
 		return UserData{}, err
 	}
 
-	userData := UserData{
-		UserID: id,
-		ResidenceID: residenceId,
-		Meta:   metaJSON,
-	}
-
-	result := DB.Create(&userData)
+	// Update the data in the database
+	result := DB.Model(&userData).Updates(UserData{
+		ActivityData: updatedActivity,
+	})
 
 	if result.Error != nil {
 		return userData, result.Error
@@ -124,7 +133,6 @@ func DeleteUser(id string) (UserData, error) {
 	if err := DB.Unscoped().Delete(&userData).Error; err != nil {
 		return UserData{}, err
 	}
-
 
 	return userData, nil
 }

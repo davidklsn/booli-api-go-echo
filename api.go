@@ -37,7 +37,7 @@ func handleUpdateUser(c echo.Context) error {
 		return err
 	}
 
-	user, err := UpdateUser(parseId, req.ResidenceID, req.Meta)
+	user, err := UpdateUser(parseId, req.Residence, req.Activity)
 
 	if err != nil {
 		c.Error(err)
@@ -55,7 +55,7 @@ func handleCreateUser(c echo.Context) error {
 		return err
 	}
 
-	userData, err := CreateUser(parseId, req.ResidenceID, req.Meta)
+	userData, err := CreateUser(parseId, req.Residence, req.Activity, req.Info)
 
 	if err != nil {
 		c.Error(err)
