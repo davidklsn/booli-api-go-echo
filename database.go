@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/davidklsn/booli-api-go/helpers"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -87,7 +88,41 @@ func CreateUser(id string, residence map[string]interface{}, activity map[string
 	return userData, nil
 }
 
-func UpdateUser(id string, residence map[string]interface{}, activity map[string]interface{}) (UserData, error) {
+func UpdateResidences(id string, residence map[string]interface{}) (UserData, error) {
+	var userData UserData
+	if err := DB.First(&userData, "user_id = ?", id).Error; err != nil {
+		return UserData{}, err
+	}
+
+	var existingResidences []map[string]interface{}
+
+	// Unmarshal existing data into slice of maps
+	if err := json.Unmarshal(userData.Residences, &existingResidences); err != nil {
+		return UserData{}, err
+	}
+
+	updatedResidences := helpers.UpdateResidenceData(existingResidences, residence)
+
+	// Marshal updated data back into JSON
+	updatedResidencesJSON, err := json.Marshal(updatedResidences)
+	if err != nil {
+		return UserData{}, err
+	}
+
+	// Update the data in the database
+	result := DB.Model(&userData).Updates(UserData{
+		Residences: updatedResidencesJSON,
+	})
+
+	if result.Error != nil {
+		return userData, result.Error
+	}
+
+	return userData, nil
+}
+
+
+func UpdateUser(id string, residence map[string]interface{}, activity map[string]interface{}, info map[string]interface{}) (UserData, error) {
 	var userData UserData
 	if err := DB.First(&userData, "user_id = ?", id).Error; err != nil {
 		return UserData{}, err

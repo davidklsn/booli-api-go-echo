@@ -14,8 +14,8 @@ type UserData struct {
 }
 
 type Request struct {
-	ID         string                 `json:"id"`
+	ID        string                 `json:"id"`
 	Residence map[string]interface{} `json:"residence"`
-	Activity   map[string]interface{} `json:"activity"`
-	Info       map[string]interface{} `json:"info"`
+	Activity  map[string]interface{} `json:"activity"`
+	Info      map[string]interface{} `json:"info"`
 }

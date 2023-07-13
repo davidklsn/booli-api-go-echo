@@ -33,6 +33,9 @@ func main() {
 	g.PUT("/:id", handleUpdateUser)
 	g.DELETE("/:id", handleDeleteUser)
 
+	// Residences
+	g.PUT("/:id/update_residence", handleUpdateResidences)
+
 	e.GET("/users", handleGetUsers)
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "A simple API to save and retrieve user data. Endpoint is /user/:id")

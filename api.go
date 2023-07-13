@@ -37,7 +37,7 @@ func handleUpdateUser(c echo.Context) error {
 		return err
 	}
 
-	user, err := UpdateUser(parseId, req.Residence, req.Activity)
+	user, err := UpdateUser(parseId, req.Residence, req.Activity, req.Info)
 
 	if err != nil {
 		c.Error(err)
@@ -81,4 +81,22 @@ func handleDeleteUser(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, userData)
+}
+
+func handleUpdateResidences(c echo.Context) error {
+	parseId := c.Param("id")
+	req := new(Request)
+
+	if err := c.Bind(req); err != nil {
+		return err
+	}
+
+	user, err := UpdateResidences(parseId, req.Residence)
+
+	if err != nil {
+		c.Error(err)
+		return err
+	}
+
+	return c.JSON(http.StatusOK, user)
 }
