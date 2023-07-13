@@ -21,6 +21,19 @@ func updateResidenceData(existingResidence map[string]interface{}, residence map
 func UpdateResidenceData(existingResidences []map[string]interface{}, residence map[string]interface{}) []map[string]interface{} {
 	var updated bool = false // Flag to check if residence has been updated
 
+	// Check if new residence is set as currentResidence
+	newResidenceCurrent := false
+	if residence["currentResidence"] != nil {
+		newResidenceCurrent = residence["currentResidence"].(bool)
+	}
+
+	// set currentResidence to false for all existing residences 
+	if newResidenceCurrent {
+		for _, existingResidence := range existingResidences {
+			existingResidence["currentResidence"] = false
+		}
+	}
+
 	for _, existingResidence := range existingResidences {
 		if updated {
 			break
@@ -38,6 +51,7 @@ func UpdateResidenceData(existingResidences []map[string]interface{}, residence 
 
 	}
 
+	// If residence has not been updated, append it to the slice
 	if !updated {
 		existingResidences = append(existingResidences, residence)
 	}
