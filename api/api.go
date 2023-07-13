@@ -1,11 +1,7 @@
 package api
 
 import (
-	"io/ioutil"
 	"net/http"
-	"net/http/httptest"
-	"strings"
-	"testing"
 
 	"github.com/davidklsn/booli-api-go/handlers"
 	"github.com/davidklsn/booli-api-go/types"
@@ -105,38 +101,6 @@ func HandleUpdateResidences(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, user)
-}
-
-func TestHandleUpdateResidences(t *testing.T) {
-	// Create a new echo context for testing
-	e := echo.New()
-	req := httptest.NewRequest(http.MethodPut, "/residences/1", nil)
-	rec := httptest.NewRecorder()
-	c := e.NewContext(req, rec)
-
-	// Set up the request body
-	reqBody := `{"residence": "New Residence"}`
-	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-	req.Body = ioutil.NopCloser(strings.NewReader(reqBody))
-
-	// Call the handler function
-	err := HandleUpdateResidences(c)
-
-	// Check if there was an error
-	if err != nil {
-		t.Errorf("handleUpdateResidences returned an error: %v", err)
-	}
-
-	// Check the response status code
-	if rec.Code != http.StatusOK {
-		t.Errorf("handleUpdateResidences returned wrong status code: got %v, want %v", rec.Code, http.StatusOK)
-	}
-
-	// Check the response body
-	expectedResponseBody := `{"id": "1", "residence": "New Residence"}`
-	if rec.Body.String() != expectedResponseBody {
-		t.Errorf("handleUpdateResidences returned wrong response body: got %v, want %v", rec.Body.String(), expectedResponseBody)
-	}
 }
 
 func handleUpdateActivity(c echo.Context) error {
