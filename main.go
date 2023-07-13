@@ -5,7 +5,9 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/davidklsn/booli-api-go/api"
 	"github.com/davidklsn/booli-api-go/config"
+	"github.com/davidklsn/booli-api-go/handlers"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
@@ -16,11 +18,12 @@ func main() {
 		panic(err)
 	}
 
-	InitDB()
+	handlers.InitDB()
 	e := echo.New()
 
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
+
 	g := e.Group("/user")
 	if os.Getenv("GO_ENV") == "production" {
 		g.Use(middleware.KeyAuth(func(key string, c echo.Context) (bool, error) {
@@ -28,15 +31,18 @@ func main() {
 		}))
 	}
 
-	g.GET("/:id", handleGetUser)
-	g.POST("/:id", handleCreateUser)
-	g.PUT("/:id", handleUpdateUser)
-	g.DELETE("/:id", handleDeleteUser)
+	g.GET("/:id", api.HandleGetUser)
+	g.POST("/:id", api.HandleCreateUser)
+	g.PUT("/:id", api.HandleUpdateUser)
+	g.DELETE("/:id", api.HandleDeleteUser)
 
 	// Residences
-	g.PUT("/:id/update_residence", handleUpdateResidences)
+	g.PUT("/:id/update_residence", api.HandleUpdateResidences)
 
-	e.GET("/users", handleGetUsers)
+	// 
+	// g.PUT("/:id/update_activity", handleUpdateActivities)
+
+	e.GET("/users", api.HandleGetUsers)
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "A simple API to save and retrieve user data. Endpoint is /user/:id")
 	})

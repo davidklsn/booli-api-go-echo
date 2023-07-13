@@ -1,9 +1,11 @@
-package main
+package handlers
 
 import (
 	"encoding/json"
 	"fmt"
 	"os"
+
+	"github.com/davidklsn/booli-api-go/types"
 
 	"github.com/davidklsn/booli-api-go/helpers"
 	"gorm.io/driver/mysql"
@@ -26,12 +28,12 @@ func InitDB() {
 		panic("failed to connect database")
 	}
 
-	DB.AutoMigrate(&UserData{})
+	DB.AutoMigrate(&types.UserData{})
 }
 
 // Get all users
-func GetUsers() ([]UserData, error) {
-	var usersData []UserData
+func GetUsers() ([]types.UserData, error) {
+	var usersData []types.UserData
 	result := DB.Find(&usersData)
 
 	if result.Error != nil {
@@ -42,8 +44,8 @@ func GetUsers() ([]UserData, error) {
 }
 
 // Retrieve a user from the database given its ID
-func GetUser(id string) (UserData, error) {
-	var userData UserData
+func GetUser(id string) (types.UserData, error) {
+	var userData types.UserData
 	result := DB.First(&userData, "user_id = ?", id)
 
 	if result.Error != nil {
@@ -54,25 +56,25 @@ func GetUser(id string) (UserData, error) {
 }
 
 // Create new user
-func CreateUser(id string, residence map[string]interface{}, activity map[string]interface{}, info map[string]interface{}) (UserData, error) {
+func CreateUser(id string, residence map[string]interface{}, activity map[string]interface{}, info map[string]interface{}) (types.UserData, error) {
 	residenceArray := []map[string]interface{}{residence}
-	
+
 	residencesJSON, err := json.Marshal(residenceArray)
 	if err != nil {
-		return UserData{}, err
+		return types.UserData{}, err
 	}
 
 	infoJSON, err := json.Marshal(info)
 	if err != nil {
-		return UserData{}, err
+		return types.UserData{}, err
 	}
 
 	activityJSON, err := json.Marshal(activity)
 	if err != nil {
-		return UserData{}, err
+		return types.UserData{}, err
 	}
 
-	userData := UserData{
+	userData := types.UserData{
 		UserID:       id,
 		Residences:   residencesJSON,
 		ActivityData: activityJSON,
@@ -88,17 +90,17 @@ func CreateUser(id string, residence map[string]interface{}, activity map[string
 	return userData, nil
 }
 
-func UpdateResidences(id string, residence map[string]interface{}) (UserData, error) {
-	var userData UserData
+func UpdateResidences(id string, residence map[string]interface{}) (types.UserData, error) {
+	var userData types.UserData
 	if err := DB.First(&userData, "user_id = ?", id).Error; err != nil {
-		return UserData{}, err
+		return types.UserData{}, err
 	}
 
 	var existingResidences []map[string]interface{}
 
 	// Unmarshal existing data into slice of maps
 	if err := json.Unmarshal(userData.Residences, &existingResidences); err != nil {
-		return UserData{}, err
+		return types.UserData{}, err
 	}
 
 	updatedResidences := helpers.UpdateResidenceData(existingResidences, residence)
@@ -106,11 +108,11 @@ func UpdateResidences(id string, residence map[string]interface{}) (UserData, er
 	// Marshal updated data back into JSON
 	updatedResidencesJSON, err := json.Marshal(updatedResidences)
 	if err != nil {
-		return UserData{}, err
+		return types.UserData{}, err
 	}
 
 	// Update the data in the database
-	result := DB.Model(&userData).Updates(UserData{
+	result := DB.Model(&userData).Updates(types.UserData{
 		Residences: updatedResidencesJSON,
 	})
 
@@ -121,18 +123,17 @@ func UpdateResidences(id string, residence map[string]interface{}) (UserData, er
 	return userData, nil
 }
 
-
-func UpdateUser(id string, residence map[string]interface{}, activity map[string]interface{}, info map[string]interface{}) (UserData, error) {
-	var userData UserData
+func UpdateUser(id string, residence map[string]interface{}, activity map[string]interface{}, info map[string]interface{}) (types.UserData, error) {
+	var userData types.UserData
 	if err := DB.First(&userData, "user_id = ?", id).Error; err != nil {
-		return UserData{}, err
+		return types.UserData{}, err
 	}
 
 	var existingActivity map[string]interface{}
 
 	// Unmarshal existing data into map
 	if err := json.Unmarshal(userData.ActivityData, &existingActivity); err != nil {
-		return UserData{}, err
+		return types.UserData{}, err
 	}
 
 	// Merge the two maps, activity overwrites existingActivity
@@ -143,11 +144,11 @@ func UpdateUser(id string, residence map[string]interface{}, activity map[string
 	// Marshal the merged map back into JSON
 	updatedActivity, err := json.Marshal(existingActivity)
 	if err != nil {
-		return UserData{}, err
+		return types.UserData{}, err
 	}
 
 	// Update the data in the database
-	result := DB.Model(&userData).Updates(UserData{
+	result := DB.Model(&userData).Updates(types.UserData{
 		ActivityData: updatedActivity,
 	})
 
@@ -159,14 +160,14 @@ func UpdateUser(id string, residence map[string]interface{}, activity map[string
 }
 
 // Delete exisiting user
-func DeleteUser(id string) (UserData, error) {
-	var userData UserData
+func DeleteUser(id string) (types.UserData, error) {
+	var userData types.UserData
 	if err := DB.First(&userData, "user_id = ?", id).Error; err != nil {
-		return UserData{}, err
+		return types.UserData{}, err
 	}
 
 	if err := DB.Unscoped().Delete(&userData).Error; err != nil {
-		return UserData{}, err
+		return types.UserData{}, err
 	}
 
 	return userData, nil
