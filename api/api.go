@@ -85,7 +85,7 @@ func HandleDeleteUser(c echo.Context) error {
 	return c.JSON(http.StatusOK, userData)
 }
 
-func HandleUpdateResidences(c echo.Context) error {
+func HandleUpdateUserResidences(c echo.Context) error {
 	parseId := c.Param("id")
 	req := new(types.Request)
 

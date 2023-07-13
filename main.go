@@ -37,7 +37,7 @@ func main() {
 	g.DELETE("/:id", api.HandleDeleteUser)
 
 	// Residences
-	g.PUT("/:id/update_residence", api.HandleUpdateResidences)
+	g.PUT("/:id/update_residence", api.HandleUpdateUserResidences)
 
 	// 
 	// g.PUT("/:id/update_activity", handleUpdateActivities)
