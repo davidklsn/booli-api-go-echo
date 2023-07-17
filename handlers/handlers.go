@@ -56,8 +56,8 @@ func GetUser(id string) (types.UserData, error) {
 }
 
 // Create new user
-func CreateUser(id string, residence map[string]interface{}, activity map[string]interface{}, info map[string]interface{}) (types.UserData, error) {
-	residenceArray := []map[string]interface{}{residence}
+func CreateUser(id string, residence map[string]any, activity map[string]any, info map[string]any) (types.UserData, error) {
+	residenceArray := []map[string]any{residence}
 
 	residencesJSON, err := json.Marshal(residenceArray)
 	if err != nil {
@@ -90,13 +90,13 @@ func CreateUser(id string, residence map[string]interface{}, activity map[string
 	return userData, nil
 }
 
-func UpdateResidences(id string, residence map[string]interface{}) (types.UserData, error) {
+func UpdateResidences(id string, residence map[string]any) (types.UserData, error) {
 	var userData types.UserData
 	if err := DB.First(&userData, "user_id = ?", id).Error; err != nil {
 		return types.UserData{}, err
 	}
 
-	var existingResidences []map[string]interface{}
+	var existingResidences []map[string]any
 
 	// Unmarshal existing data into slice of maps
 	if err := json.Unmarshal(userData.Residences, &existingResidences); err != nil {
@@ -123,13 +123,13 @@ func UpdateResidences(id string, residence map[string]interface{}) (types.UserDa
 	return userData, nil
 }
 
-func UpdateUser(id string, residence map[string]interface{}, activity map[string]interface{}, info map[string]interface{}) (types.UserData, error) {
+func UpdateUser(id string, residence map[string]any, activity map[string]any, info map[string]any) (types.UserData, error) {
 	var userData types.UserData
 	if err := DB.First(&userData, "user_id = ?", id).Error; err != nil {
 		return types.UserData{}, err
 	}
 
-	var existingActivity map[string]interface{}
+	var existingActivity map[string]any
 
 	// Unmarshal existing data into map
 	if err := json.Unmarshal(userData.ActivityData, &existingActivity); err != nil {

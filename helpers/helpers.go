@@ -1,10 +1,10 @@
 package helpers
 
-func hasSameResidenceID(res1, res2 map[string]interface{}) bool {
+func hasSameResidenceID(res1, res2 map[string]any) bool {
 	return res1["residenceId"] == res2["residenceId"]
 }
 
-func hasSameAddress(res1, res2 map[string]interface{}) bool {
+func hasSameAddress(res1, res2 map[string]any) bool {
 	if res2["streetAddress"] == nil || res2["city"] == nil {
 		return false
 	}
@@ -12,13 +12,13 @@ func hasSameAddress(res1, res2 map[string]interface{}) bool {
 	return (res1["streetAddress"] == res2["streetAddress"] && res1["city"] == res2["city"])
 }
 
-func updateResidenceData(existingResidence map[string]interface{}, residence map[string]interface{}) {
+func updateResidenceData(existingResidence map[string]any, residence map[string]any) {
 	for k, v := range residence {
 		existingResidence[k] = v
 	}
 }
 
-func UpdateResidenceData(existingResidences []map[string]interface{}, residence map[string]interface{}) []map[string]interface{} {
+func UpdateResidenceData(existingResidences []map[string]any, residence map[string]any) []map[string]any {
 	var updated bool = false // Flag to check if residence has been updated
 
 	// Check if new residence is set as currentResidence

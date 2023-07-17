@@ -6,36 +6,36 @@ import (
 )
 
 func TestHasSameResidenceID(t *testing.T) {
-	res1 := map[string]interface{}{"residenceId": "123"}
-	res2 := map[string]interface{}{"residenceId": "123"}
+	res1 := map[string]any{"residenceId": "123"}
+	res2 := map[string]any{"residenceId": "123"}
 	if !hasSameResidenceID(res1, res2) {
 		t.Errorf("hasSameResidenceID failed when it should have passed")
 	}
 
-	res3 := map[string]interface{}{"residenceId": "123"}
-	res4 := map[string]interface{}{"residenceId": "456"}
+	res3 := map[string]any{"residenceId": "123"}
+	res4 := map[string]any{"residenceId": "456"}
 	if hasSameResidenceID(res3, res4) {
 		t.Errorf("hasSameResidenceID passed when it should have failed")
 	}
 }
 
 func TestHasSameAddress(t *testing.T) {
-	res1 := map[string]interface{}{"streetAddress": "123 Street", "city": "New York"}
-	res2 := map[string]interface{}{"streetAddress": "123 Street", "city": "New York"}
+	res1 := map[string]any{"streetAddress": "123 Street", "city": "New York"}
+	res2 := map[string]any{"streetAddress": "123 Street", "city": "New York"}
 	if !hasSameAddress(res1, res2) {
 		t.Errorf("hasSameAddress failed when it should have passed")
 	}
 
-	res3 := map[string]interface{}{"streetAddress": "123 Street", "city": "New York"}
-	res4 := map[string]interface{}{"streetAddress": "456 Street", "city": "Los Angeles"}
+	res3 := map[string]any{"streetAddress": "123 Street", "city": "New York"}
+	res4 := map[string]any{"streetAddress": "456 Street", "city": "Los Angeles"}
 	if hasSameAddress(res3, res4) {
 		t.Errorf("hasSameAddress passed when it should have failed")
 	}
 }
 
 func TestUpdateResidenceData(t *testing.T) {
-	existing := map[string]interface{}{"residenceId": "123", "streetAddress": "123 Street", "city": "New York"}
-	new := map[string]interface{}{"residenceId": "123", "streetAddress": "456 Street", "city": "Los Angeles"}
+	existing := map[string]any{"residenceId": "123", "streetAddress": "123 Street", "city": "New York"}
+	new := map[string]any{"residenceId": "123", "streetAddress": "456 Street", "city": "Los Angeles"}
 
 	updateResidenceData(existing, new)
 
@@ -45,11 +45,11 @@ func TestUpdateResidenceData(t *testing.T) {
 }
 
 func TestUpdateResidenceDataAll(t *testing.T) {
-	existingResidences := []map[string]interface{}{
+	existingResidences := []map[string]any{
 		{"residenceId": "123", "streetAddress": "123 Street", "city": "New York", "currentResidence": true},
 		{"residenceId": "456", "streetAddress": "456 Street", "city": "Los Angeles", "currentResidence": false},
 	}
-	newResidence := map[string]interface{}{"residenceId": "789", "streetAddress": "789 Street", "city": "Chicago", "currentResidence": true}
+	newResidence := map[string]any{"residenceId": "789", "streetAddress": "789 Street", "city": "Chicago", "currentResidence": true}
 
 	updatedResidences := UpdateResidenceData(existingResidences, newResidence)
 
