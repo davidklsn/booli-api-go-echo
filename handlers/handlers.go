@@ -123,33 +123,33 @@ func UpdateResidences(id string, residence map[string]any) (types.UserData, erro
 	return userData, nil
 }
 
-func UpdateUser(id string, residence map[string]any, activity map[string]any, info map[string]any) (types.UserData, error) {
+func UpdateActivites(id string, activity map[string]any) (types.UserData, error) {
 	var userData types.UserData
 	if err := DB.First(&userData, "user_id = ?", id).Error; err != nil {
 		return types.UserData{}, err
 	}
 
-	var existingActivity map[string]any
+	var existingActivities map[string]map[string]any
 
-	// Unmarshal existing data into map
-	if err := json.Unmarshal(userData.ActivityData, &existingActivity); err != nil {
+	// Unmarshal existing data into slice of maps
+	if err := json.Unmarshal(userData.ActivityData, &existingActivities); err != nil {
 		return types.UserData{}, err
 	}
 
-	// Merge the two maps, activity overwrites existingActivity
-	for key, value := range activity {
-		existingActivity[key] = value
+	updatedActivities, errors := helpers.UpdateActivityData(existingActivities, activity)
+
+	if(errors != nil) {
+		return types.UserData{}, errors
 	}
 
-	// Marshal the merged map back into JSON
-	updatedActivity, err := json.Marshal(existingActivity)
+	updatedActivitiesJSON, err := json.Marshal(updatedActivities)
 	if err != nil {
 		return types.UserData{}, err
 	}
 
 	// Update the data in the database
 	result := DB.Model(&userData).Updates(types.UserData{
-		ActivityData: updatedActivity,
+		ActivityData: updatedActivitiesJSON,
 	})
 
 	if result.Error != nil {

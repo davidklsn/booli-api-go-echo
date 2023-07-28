@@ -33,11 +33,12 @@ func main() {
 
 	g.GET("/:id", api.HandleGetUser)
 	g.POST("/:id", api.HandleCreateUser)
-	g.PUT("/:id", api.HandleUpdateUser)
 	g.DELETE("/:id", api.HandleDeleteUser)
 
 	// Residences
 	g.PUT("/:id/update_residence", api.HandleUpdateUserResidences)
+	g.PUT("/:id/update_activity", api.HandleUpdateUserActivities)
+	g.PUT("/:id/update_info", api.HandleUpdateUserInfo)
 
 	// 
 	// g.PUT("/:id/update_activity", handleUpdateActivities)
