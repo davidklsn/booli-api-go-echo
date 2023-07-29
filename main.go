@@ -7,7 +7,7 @@ import (
 
 	"github.com/davidklsn/booli-api-go/api"
 	"github.com/davidklsn/booli-api-go/config"
-	"github.com/davidklsn/booli-api-go/handlers"
+	"github.com/davidklsn/booli-api-go/constants"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
@@ -18,7 +18,7 @@ func main() {
 		panic(err)
 	}
 
-	handlers.InitDB()
+	constants.InitDB()
 	e := echo.New()
 
 	e.Use(middleware.Logger())
@@ -40,7 +40,7 @@ func main() {
 	g.PUT("/:id/update_activity", api.HandleUpdateUserActivities)
 	g.PUT("/:id/update_info", api.HandleUpdateUserInfo)
 
-	// 
+	//
 	// g.PUT("/:id/update_activity", handleUpdateActivities)
 
 	e.GET("/users", api.HandleGetUsers)
