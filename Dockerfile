@@ -26,7 +26,7 @@ WORKDIR /app
 
 # Copy package files and install dependencies
 COPY package*.json ./
-RUN npm install
+RUN yarn install
 
 # Copy all files
 COPY . .
