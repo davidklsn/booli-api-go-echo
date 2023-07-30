@@ -1,0 +1,21 @@
+{
+  "dependencies": {
+    "concurrently": "^8.2.0",
+    "esbuild": "^0.18.17",
+    "fs": "^0.0.1-security",
+    "htmx.org": "^1.9.4",
+    "tailwind": "^4.0.0"
+  },
+  "scripts": {
+    "build": "esbuild assets/javascript/app.js --bundle --outfile=public/dist/app.js --platform=browser --external:fs",
+    "watch": "esbuild assets/javascript/app.js --bundle --outdir=public/dist --watch",
+    "dev": "concurrently \"npm run dev:css\" \"yarn watch\"",
+    "dev:css": "tailwindcss -w -i ./assets/css/style.css -o ./public/dist/main.css"
+  },
+  "name": "booli-api-echo",
+  "version": "1.0.0",
+  "main": "assets/javascript/app.js",
+  "repository": "git@github.com:davidklsn/booli-api-go-echo.git",
+  "author": "David Karlsson <sjappskalle@gmail.com>",
+  "license": "MIT"
+}

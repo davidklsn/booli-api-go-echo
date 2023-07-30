@@ -1,1 +1,7 @@
-{{define "hello"}}Hello, {{.}}!{{end}}
+{{define "hello"}}
+<head>
+  <script src="/dist/app.js"></script>
+  <link href="/dist/main.css" rel="stylesheet">
+</head>
+<div class="h-[100px] w-[100px] bg-black"><div>
+Hello, {{.}}! {{end}}
