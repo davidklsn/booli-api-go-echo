@@ -22,7 +22,7 @@ RUN go build -o main .
 FROM node:18 as esbuilder
 
 # Set the working directory
-WORKDIR /workspace
+WORKDIR /app
 
 # Copy package files and install dependencies
 COPY package*.json ./
@@ -32,12 +32,12 @@ RUN npm install
 COPY . .
 
 # Use ESBuild to compile JavaScript
-RUN npx esbuild app.js --bundle --minify --sourcemap --target=es2015 --outfile=bundle.js
+RUN npx esbuild assets/javascript/app.js --bundle --minify --sourcemap --target=es2015 --outfile=bundle.js
 
 # ---- Final Stage ----
 FROM golang:1.19
 
-WORKDIR /workspace
+WORKDIR /app
 
 # Copy the binary file from builder stage
 COPY --from=builder /workspace/main .
