@@ -42,7 +42,6 @@ func main() {
 	e.Use(middleware.Recover())
 
 	e.Static("/dist", "public/dist")
-
 	g := e.Group("/user")
 	if os.Getenv("GO_ENV") == "production" {
 		g.Use(middleware.KeyAuth(func(key string, c echo.Context) (bool, error) {
