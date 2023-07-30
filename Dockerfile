@@ -15,7 +15,7 @@ RUN go mod download
 COPY . .
 
 # Build the application
-RUN go build -o main .
+RUN go build -o main . -buildvcs=false
 
 # ---- JavaScript Compile Stage ----
 # Use Node.js for ESBuild
