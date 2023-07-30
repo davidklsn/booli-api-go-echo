@@ -1,0 +1,41 @@
+{{define "start"}}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Användardata på Booli</title>
+    <script src="/dist/app.js"></script>
+    <link href="/dist/main.css" rel="stylesheet" />
+  </head>
+  <body class="container pt-20">
+    <h1 class="bg-yellow p-5 mb-4 rounded">Användare</h1>
+    <div>
+      <table class="w-full text-left text-gray-500 dark:text-gray-400">
+        <thead
+          class="text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+        >
+          <tr>
+            <th scope="col" class="px-6 py-3">Användar-ID</th>
+            <th scope="col" class="px-6 py-3"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {{range .Users}}
+          <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+            <th
+              scope="row"
+              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+            >
+              {{ .UserID }}
+            </th>
+            <td class="px-6 py-4 underline">
+              <a href="/users/{{.UserID}}">Visa</button>
+            </td>
+          </tr>
+          {{ end }}
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
+
+{{end}}

@@ -2,13 +2,25 @@ package main
 
 import (
 	"fmt"
-	"net/http"
+	"html/template"
+	"io"
 	"os"
 
+	"github.com/davidklsn/booli-api-go/api"
 	"github.com/davidklsn/booli-api-go/config"
+	"github.com/davidklsn/booli-api-go/constants"
+	"github.com/davidklsn/booli-api-go/controllers"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
+
+type Template struct {
+	templates *template.Template
+}
+
+func (t *Template) Render(w io.Writer, name string, data any, c echo.Context) error {
+	return t.templates.ExecuteTemplate(w, name, data)
+}
 
 func main() {
 	err := config.LoadENV()
@@ -16,27 +28,39 @@ func main() {
 		panic(err)
 	}
 
-	InitDB()
+	// Initalize database
+	constants.InitDB()
+
+	t := &Template{
+		templates: template.Must(template.ParseGlob("views/*.html")),
+	}
+
 	e := echo.New()
+	e.Renderer = t
 
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
-	g := e.Group("/user")
+
+	e.Static("/dist", "public/dist")
+	g := e.Group("/users")
 	if os.Getenv("GO_ENV") == "production" {
 		g.Use(middleware.KeyAuth(func(key string, c echo.Context) (bool, error) {
 			return key == os.Getenv("AUTH_KEY"), nil
 		}))
 	}
 
-	g.GET("/:id", handleGetUser)
-	g.POST("/:id", handleCreateUser)
-	g.PUT("/:id", handleUpdateUser)
-	g.DELETE("/:id", handleDeleteUser)
+	// Routes [:users]
+	g.GET("/:id", api.HandleGetUser)
+	g.POST("/:id", api.HandleCreateUser)
+	g.DELETE("/:id", api.HandleDeleteUser)
 
-	e.GET("/users", handleGetUsers)
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "A simple API to save and retrieve user data. Endpoint is /user/:id")
-	})
+	// Routes [:custom_data]
+	g.PUT("/:id/update_residence", api.HandleUpdateUserResidences)
+	g.PUT("/:id/update_activity", api.HandleUpdateUserActivities)
+	g.PUT("/:id/update_info", api.HandleUpdateUserInfo)
+
+	e.GET("/users", api.HandleGetUsers)
+	e.GET("/", controllers.Index)
 
 	port := os.Getenv("APP_PORT")
 	e.Logger.Fatal(e.Start(fmt.Sprintf("%s%s", ":", port)))
