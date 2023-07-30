@@ -43,11 +43,11 @@ func main() {
 
 	e.Static("/dist", "public/dist")
 	g := e.Group("/users")
-	if os.Getenv("GO_ENV") == "production" {
-		g.Use(middleware.KeyAuth(func(key string, c echo.Context) (bool, error) {
-			return key == os.Getenv("AUTH_KEY"), nil
-		}))
-	}
+	// if os.Getenv("GO_ENV") == "production" {
+	// 	g.Use(middleware.KeyAuth(func(key string, c echo.Context) (bool, error) {
+	// 		return key == os.Getenv("AUTH_KEY"), nil
+	// 	}))
+	// }
 
 	// Routes [:users]
 	g.GET("/:id", api.HandleGetUser)
