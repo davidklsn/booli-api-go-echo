@@ -32,7 +32,7 @@ RUN yarn install
 COPY . .
 
 # Use ESBuild to compile JavaScript
-RUN npx esbuild assets/javascript/app.js --bundle --minify --sourcemap --target=es2015 --outfile=bundle.js
+RUN npx esbuild assets/javascript/app.ts --bundle --minify --sourcemap --target=es2015 --outfile=bundle.js
 RUN npx tailwindcss -i ./assets/css/style.css -o main.css
 
 # ---- Final Stage ----
