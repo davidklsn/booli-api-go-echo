@@ -37,6 +37,6 @@ func User(c echo.Context) error {
 	return c.Render(http.StatusOK, "user", data)
 }
 
-func ApiExplorer(c echo.Context) error {
-	return c.Render(http.StatusOK, "explorer", nil)
+func ApiDocs(c echo.Context) error {
+	return c.Render(http.StatusOK, "docs", nil)
 }

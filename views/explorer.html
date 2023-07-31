@@ -1,10 +1,11 @@
-{{define "explorer"}}
+{{define "docs"}}
 <!DOCTYPE html>
 <html>
   <head>
     <title>Användardata på Booli</title>
     <script src="/dist/app.js"></script>
     <link href="/dist/main.css" rel="stylesheet" />
+    <link rel=stylesheet href=https://cdn.jsdelivr.net/npm/pretty-print-json@2.0/dist/css/pretty-print-json.dark-mode.css>
   </head>
   <body class="container pt-20">
     <div class="text-blue pb-6">
@@ -13,6 +14,20 @@
     <a class="inline-block bg-blue text-white font-bold py-2 px-4 rounded mb-4" href="/">
       Hem
     </a>
+    <div class="w-full mt-6">
+      <section>
+        <div class="bg-green rounded text-white p-2 inline mb-6 block">POST: /users/:id</div>
+        <div class="block mt-3">
+          <p class="bg-gray inline px-2 py-1">Body</p>
+          <pre
+            id="jsonView"
+            class="json-container p-3 mt-[.5px]" 
+            json='{"activity":{"salesCalculator":{"value":300000}},"residence":{"residenceId":123314,"streetAddress":"Runnerydsgatan21","city":"Nässjö","livingResidence":true},"info":{"occupation":"employed"}}'
+          ></pre>
+
+        </div>
+      </section>
+    </div>
   </body>
 </html>
 

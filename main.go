@@ -63,7 +63,7 @@ func main() {
 	e.GET("/users", api.HandleGetUsers)
 	e.GET("/", controllers.Index)
 	e.GET("/u/:id", controllers.User)
-	e.GET("/explorer", controllers.ApiExplorer)
+	e.GET("/docs", controllers.ApiDocs)
 
 	port := os.Getenv("APP_PORT")
 	e.Logger.Fatal(e.Start(fmt.Sprintf("%s%s", ":", port)))
