@@ -17,3 +17,7 @@ func Index(c echo.Context) error {
 
 	return c.Render(http.StatusOK, "start", data)
 }
+
+func ApiExplorer(c echo.Context) error {
+	return c.Render(http.StatusOK, "explorer", nil)
+}
