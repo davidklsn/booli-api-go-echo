@@ -1,5 +1,5 @@
 require('esbuild').build({
-  entryPoints: ['assets/javascript/app.js'],
+  entryPoints: ['assets/javascript/app.ts', 'assets/css/style.css'],
   bundle: true,
   minify: true,
   sourcemap: true,
