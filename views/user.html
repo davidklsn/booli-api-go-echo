@@ -1,0 +1,35 @@
+{{define "user"}}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ .UserID }}</title>
+    <script src="/dist/app.js"></script>
+    <link href="/dist/app.css" rel="stylesheet" />
+    <link href="/dist/main.css" rel="stylesheet" />
+    <link rel=stylesheet
+    href=https://cdn.jsdelivr.net/npm/pretty-print-json@2.0/dist/css/pretty-print-json.dark-mode.css>
+  </head>
+  <body class="container pt-20">
+    <div class="text-blue pb-6">
+      <a href="https://github.com/davidklsn/booli-api-go-echo" target="_blank"
+        >github.com/davidklsn/booli-api-go-echo</a
+      >
+    </div>
+    <a
+      class="inline-block bg-blue text-white font-bold py-2 px-4 rounded mb-4"
+      href="/"
+    >
+      Hem
+    </a>
+    <div>
+      <h1 class="bold mb-2">Info om användare: {{ .UserID }}</h1>
+      <pre
+        id="jsonView"
+        class="json-container p-3 rounded"
+        json="{{ .UserData }}"
+      ></pre>
+    </div>
+  </body>
+</html>
+
+{{end}}

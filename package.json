@@ -4,11 +4,12 @@
     "esbuild": "^0.18.17",
     "fs": "^0.0.1-security",
     "htmx.org": "^1.9.4",
+    "pretty-print-json": "^2.0.2",
     "tailwind": "^4.0.0"
   },
   "scripts": {
-    "build": "esbuild assets/javascript/app.js --bundle --outfile=public/dist/app.js --platform=browser --external:fs",
-    "watch": "esbuild assets/javascript/app.js --bundle --outdir=public/dist --watch",
+    "build": "esbuild assets/javascript/app.ts --bundle --outfile=public/dist/app.js --platform=browser --external:fs",
+    "watch": "esbuild assets/javascript/app.ts --bundle --outdir=public/dist --watch",
     "dev": "concurrently \"npm run dev:css\" \"yarn watch\"",
     "dev:css": "npx tailwindcss -i ./assets/css/style.css -o ./public/dist/main.css --watch"
   },
