@@ -4,7 +4,6 @@ import "../css/main.css";
 import "htmx.org";
 import { prettyPrintJson, FormatOptions } from "pretty-print-json";
 
-
 window.onload = function () {
   // Your code goes here
   var jsonView = document.getElementById("jsonView");
@@ -12,9 +11,8 @@ window.onload = function () {
     const rawData = jsonView.getAttribute("json");
     const elem = document.getElementById("jsonView");
 
-    const jsonData any = JSON.parse(rawData);
-
-    if (elem) {
+    if (elem && rawData) {
+      const jsonData: object = JSON.parse(rawData);
       const options: FormatOptions = { linkUrls: true };
       elem.innerHTML = prettyPrintJson.toHtml(jsonData, options);
     }
