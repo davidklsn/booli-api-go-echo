@@ -10,7 +10,7 @@
     "build": "esbuild assets/javascript/app.js --bundle --outfile=public/dist/app.js --platform=browser --external:fs",
     "watch": "esbuild assets/javascript/app.js --bundle --outdir=public/dist --watch",
     "dev": "concurrently \"npm run dev:css\" \"yarn watch\"",
-    "dev:css": "tailwindcss -w -i ./assets/css/style.css -o ./public/dist/main.css"
+    "dev:css": "npx tailwindcss -i ./assets/css/style.css -o ./public/dist/main.css --watch"
   },
   "name": "booli-api-echo",
   "version": "1.0.0",
