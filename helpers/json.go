@@ -1,7 +1,7 @@
 package helpers
 
-func getKeyValueFromJSON(jsonData map[string]interface{}) (string, any) {
-    for key, value := range jsonData {
+func getKeyValueFromJSON(jsonData *map[string]interface{}) (string, any) {
+    for key, value := range *jsonData {
         return key, value
     }
 

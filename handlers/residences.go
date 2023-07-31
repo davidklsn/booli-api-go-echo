@@ -21,10 +21,14 @@ func UpdateResidences(id string, residence map[string]any) (types.UserData, erro
 		return types.UserData{}, err
 	}
 
-	updatedResidences := helpers.UpdateResidenceData(existingResidences, residence)
+	errors := helpers.UpdateResidenceData(&existingResidences, residence)
+
+	if errors != nil {
+		return types.UserData{}, errors
+	}
 
 	// Marshal updated data back into JSON
-	updatedResidencesJSON, err := json.Marshal(updatedResidences)
+	updatedResidencesJSON, err := json.Marshal(existingResidences)
 	if err != nil {
 		return types.UserData{}, err
 	}

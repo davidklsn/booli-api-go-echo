@@ -21,13 +21,13 @@ func UpdateActivites(id string, activity map[string]any) (types.UserData, error)
 		return types.UserData{}, err
 	}
 
-	updatedActivities, errors := helpers.UpdateActivityData(existingActivities, activity)
+	errors := helpers.UpdateActivityData(&existingActivities, activity)
 
 	if errors != nil {
 		return types.UserData{}, errors
 	}
 
-	updatedActivitiesJSON, err := json.Marshal(updatedActivities)
+	updatedActivitiesJSON, err := json.Marshal(existingActivities)
 	if err != nil {
 		return types.UserData{}, err
 	}
