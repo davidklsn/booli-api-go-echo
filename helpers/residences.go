@@ -12,13 +12,13 @@ func hasSameAddress(res1, res2 map[string]any) bool {
 	return (res1["streetAddress"] == res2["streetAddress"] && res1["city"] == res2["city"])
 }
 
-func updateResidenceData(existingResidence map[string]any, residence map[string]any) {
+func updateResidenceData(existingResidence *map[string]any, residence map[string]any) {
 	for k, v := range residence {
-		existingResidence[k] = v
+		(*existingResidence)[k] = v
 	}
 }
 
-func UpdateResidenceData(existingResidences []map[string]any, residence map[string]any) []map[string]any {
+func UpdateResidenceData(existingResidences *[]map[string]any, residence map[string]any) error {
 	var updated bool = false // Flag to check if residence has been updated
 
 	// Check if new residence is set as currentResidence
@@ -29,22 +29,22 @@ func UpdateResidenceData(existingResidences []map[string]any, residence map[stri
 
 	// set currentResidence to false for all existing residences 
 	if newResidenceCurrent {
-		for _, existingResidence := range existingResidences {
+		for _, existingResidence := range *existingResidences {
 			existingResidence["currentResidence"] = false
 		}
 	}
 
-	for _, existingResidence := range existingResidences {
+	for _, existingResidence := range *existingResidences {
 		if updated {
 			break
 		}
 
 		if hasSameResidenceID(existingResidence, residence) {
-			updateResidenceData(existingResidence, residence)
+			updateResidenceData(&existingResidence, residence)
 
 			updated = true
 		} else if hasSameAddress(existingResidence, residence) {
-			updateResidenceData(existingResidence, residence)
+			updateResidenceData(&existingResidence, residence)
 
 			updated = true
 		}
@@ -53,8 +53,8 @@ func UpdateResidenceData(existingResidences []map[string]any, residence map[stri
 
 	// If residence has not been updated, append it to the slice
 	if !updated {
-		existingResidences = append(existingResidences, residence)
+		*existingResidences = append(*existingResidences, residence)
 	}
 
-	return existingResidences
+	return nil
 }

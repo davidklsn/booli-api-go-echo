@@ -37,7 +37,7 @@ func TestUpdateResidenceData(t *testing.T) {
 	existing := map[string]any{"residenceId": "123", "streetAddress": "123 Street", "city": "New York"}
 	new := map[string]any{"residenceId": "123", "streetAddress": "456 Street", "city": "Los Angeles"}
 
-	updateResidenceData(existing, new)
+	updateResidenceData(&existing, new)
 
 	if !reflect.DeepEqual(existing, new) {
 		t.Errorf("updateResidenceData failed to update the residence data")
@@ -51,17 +51,17 @@ func TestUpdateResidenceDataAll(t *testing.T) {
 	}
 	newResidence := map[string]any{"residenceId": "789", "streetAddress": "789 Street", "city": "Chicago", "currentResidence": true}
 
-	updatedResidences := UpdateResidenceData(existingResidences, newResidence)
+	UpdateResidenceData(&existingResidences, newResidence)
 
-	if len(updatedResidences) != 3 {
+	if len(existingResidences) != 3 {
 		t.Errorf("UpdateResidenceData failed to append the new residence")
 	}
 
-	if updatedResidences[0]["currentResidence"].(bool) {
+	if existingResidences[0]["currentResidence"].(bool) {
 		t.Errorf("UpdateResidenceData failed to set currentResidence of existing residences to false")
 	}
 
-	if !updatedResidences[2]["currentResidence"].(bool) {
+	if !existingResidences[2]["currentResidence"].(bool) {
 		t.Errorf("UpdateResidenceData failed to set currentResidence of new residence to true")
 	}
 }
