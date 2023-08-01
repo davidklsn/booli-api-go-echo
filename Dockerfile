@@ -32,7 +32,7 @@ RUN yarn install
 COPY . .
 
 # Use ESBuild to compile JavaScript
-RUN npx esbuild assets/javascript/app.ts --bundle --minify --sourcemap --target=es2015 --outfile=bundle.js
+RUN npx esbuild assets/javascript/app.ts --bundle --minify --sourcemap --target=es2015 --outdir=.
 RUN npx tailwindcss -i ./assets/css/style.css -o main.css
 
 # ---- Final Stage ----
@@ -42,10 +42,11 @@ WORKDIR /app
 
 # Copy the binary file from builder stage
 COPY --from=builder /workspace/main .
-COPY --from=builder /workspace/views/*.html ./views/
+COPY --from=builder /workspace/views ./views/
 
 # Copy the JavaScript bundle from frontendBuilder stage
-COPY --from=frontendBuilder /app/bundle.js ./public/dist/app.js
+COPY --from=frontendBuilder /app/app.js ./public/dist/app.js
+COPY --from=frontendBuilder /app/app.css ./public/dist/app.css
 COPY --from=frontendBuilder /app/main.css ./public/dist/main.css
 
 # Expose port

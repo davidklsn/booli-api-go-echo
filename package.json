@@ -8,7 +8,7 @@
     "tailwind": "^4.0.0"
   },
   "scripts": {
-    "build": "esbuild assets/javascript/app.ts --bundle --outfile=public/dist/app.js --platform=browser --external:fs",
+    "build": "esbuild assets/javascript/app.ts --bundle --outdir=public/dist --platform=browser --external:fs",
     "watch": "esbuild assets/javascript/app.ts --bundle --outdir=public/dist --watch",
     "dev": "concurrently \"npm run dev:css\" \"yarn watch\"",
     "dev:css": "npx tailwindcss -i ./assets/css/style.css -o ./public/dist/main.css --watch"
