@@ -102,21 +102,21 @@ func HandleUpdateUserActivities(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, user)
 }
+
 func HandleUpdateUserInfo(c echo.Context) error {
-	// parseId := c.Param("id")
-	// req := new(types.Request)
-	//
-	// if err := c.Bind(req); err != nil {
-	// 	return err
-	// }
-	//
-	// user, err := handlers.UpdateResidences(parseId, req.Residence)
-	//
-	// if err != nil {
-	// 	c.Error(err)
-	// 	return err
-	// }
-	//
-	// return c.JSON(http.StatusOK, user)
-	return nil
+	parseId := c.Param("id")
+	req := new(types.InfoRequest)
+
+	if err := c.Bind(req); err != nil {
+		return err
+	}
+
+	user, err := handlers.UpdateInfo(parseId, req.Info)
+
+	if err != nil {
+		c.Error(err)
+		return err
+	}
+
+	return c.JSON(http.StatusOK, user)
 }
