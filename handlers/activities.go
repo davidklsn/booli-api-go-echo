@@ -10,21 +10,22 @@ import (
 
 func UpdateActivites(id string, activity map[string]any) (types.UserData, error) {
 	var userData types.UserData
-	if err := constants.DB.First(&userData, "user_id = ?", id).Error; err != nil {
+	if err := constants.DB.First(&userData, "user_id = ?", id).Select("ActivityData").Error; err != nil {
 		return types.UserData{}, err
 	}
 
-	var existingActivities map[string]map[string]any
+	var existingActivities map[string]any
 
 	// Unmarshal existing data into slice of maps
 	if err := json.Unmarshal(userData.ActivityData, &existingActivities); err != nil {
 		return types.UserData{}, err
 	}
 
-	errors := helpers.UpdateActivityData(&existingActivities, activity)
-
-	if errors != nil {
-		return types.UserData{}, errors
+	if existingActivities != nil {
+		helpers.UpdateActivityData(&existingActivities, activity)
+	} else {
+		existingActivities = make(map[string]any)
+		existingActivities = activity
 	}
 
 	updatedActivitiesJSON, err := json.Marshal(existingActivities)
