@@ -1,44 +1,33 @@
-{{define "start"}}
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Användardata på Booli</title>
-    <script src="/dist/app.js"></script>
-    <link href="/dist/main.css" rel="stylesheet" />
-  </head>
-  <body class="container pt-20">
-    <div class="text-blue pb-6">
-      <a href="https://github.com/davidklsn/booli-api-go-echo" target="_blank" >github.com/davidklsn/booli-api-go-echo</a>
-    </div>
-    <a class="inline-block bg-blue text-white font-bold py-2 px-4 rounded mb-4" href="/docs">
-      docs
-    </a>
-    <div>
-      <table class="w-full text-left">
-        <thead>
-          <tr>
-            <th scope="col" class="px-6"></th>
-            <th scope="col" class="px-6"></th>
-          </tr>
-        </thead>
-        <tbody>
-          {{range .Users}}
-          <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-            <th
-              scope="row"
-              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+{{define "content"}}
+<div class="text-blue pb-6">
+  <a href="https://github.com/davidklsn/booli-api-go-echo" target="_blank" >github.com/davidklsn/booli-api-go-echo</a>
+</div>
+<a class="inline-block bg-blue text-white font-bold py-2 px-4 rounded mb-4" href="/docs">
+  docs
+</a>
+<div>
+  <table class="w-full text-left">
+    <thead>
+      <tr>
+        <th scope="col" class="px-6"></th>
+        <th scope="col" class="px-6"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {{range .users}}
+      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+        <th
+            scope="row"
+            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
             >
-              {{ .UserID }}
-            </th>
-            <td class="px-6 py-4 underline">
-              <a href="/u/{{.UserID}}">Visa</button>
-            </td>
-          </tr>
-          {{ end }}
-        </tbody>
-      </table>
-    </div>
-  </body>
-</html>
-
-{{end}}
+            {{ .UserID }}
+        </th>
+          <td class="px-6 py-4 underline">
+            <a href="/u/{{.UserID}}">Visa</button>
+          </td>
+      </tr>
+      {{ end }}
+    </tbody>
+  </table>
+</div>
+{{ end }}

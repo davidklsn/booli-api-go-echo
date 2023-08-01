@@ -12,11 +12,11 @@ import (
 func Index(c echo.Context) error {
 	var users []types.UserData
 	users, _ = handlers.GetUsers()
-	data := map[string]interface{}{
-		"Users": users,
-	}
 
-	return c.Render(http.StatusOK, "start", data)
+	return c.Render(http.StatusOK, "index", echo.Map{
+		"title": "Start",
+		"users": users,
+	})
 }
 
 func User(c echo.Context) error {
@@ -29,14 +29,15 @@ func User(c echo.Context) error {
 		return err
 	}
 
-	data := map[string]any{
-		"UserID": user.UserID,
-		"UserData": string(userJSON),
-	}
-
-	return c.Render(http.StatusOK, "user", data)
+	return c.Render(http.StatusOK, "user", echo.Map{
+		"title":    "Användare",
+		"userID":   user.UserID,
+		"userData": string(userJSON),
+	})
 }
 
 func ApiDocs(c echo.Context) error {
-	return c.Render(http.StatusOK, "docs", nil)
+	return c.Render(http.StatusOK, "docs", echo.Map{
+		"title": "API Docs",
+	})
 }

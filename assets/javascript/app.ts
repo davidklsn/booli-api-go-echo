@@ -1,5 +1,7 @@
 // Custom styling
 import "../css/main.css";
+import "../css/json_view.css"
+
 
 import "htmx.org";
 import { prettyPrintJson, FormatOptions } from "pretty-print-json";
