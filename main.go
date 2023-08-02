@@ -39,7 +39,7 @@ func main() {
 	g.DELETE("/:id", api.HandleDeleteUser)
 
 	// Routes [:custom_data]
-	g.PUT("/:id/update_residence", api.HandleUpdateUserResidences)
+	g.PUT("/:id/update_residences", api.HandleUpdateUserResidences)
 	g.PUT("/:id/update_info", api.HandleUpdateUserInfo)
 
 	// -- PAGES --
