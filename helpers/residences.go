@@ -27,7 +27,7 @@ func UpdateResidenceData(existingResidences *[]map[string]any, residence map[str
 		newResidenceCurrent = residence["currentResidence"].(bool)
 	}
 
-	// set currentResidence to false for all existing residences 
+	// set currentResidence to false for all existing residences
 	if newResidenceCurrent {
 		for _, existingResidence := range *existingResidences {
 			existingResidence["currentResidence"] = false
@@ -39,11 +39,8 @@ func UpdateResidenceData(existingResidences *[]map[string]any, residence map[str
 			break
 		}
 
-		if hasSameResidenceID(existingResidence, residence) {
-			updateResidenceData(&existingResidence, residence)
-
-			updated = true
-		} else if hasSameAddress(existingResidence, residence) {
+		var sameResidence bool = hasSameResidenceID(existingResidence, residence) || hasSameAddress(existingResidence, residence)
+		if sameResidence {
 			updateResidenceData(&existingResidence, residence)
 
 			updated = true
