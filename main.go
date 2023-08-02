@@ -38,9 +38,12 @@ func main() {
 	g.POST("/:id", api.HandleCreateUser)
 	g.DELETE("/:id", api.HandleDeleteUser)
 
+
 	// Routes [:custom_data]
 	g.PUT("/:id/update_residences", api.HandleUpdateUserResidences)
 	g.PUT("/:id/update_info", api.HandleUpdateUserInfo)
+
+	g.GET("/:id/current_residence", api.HandleGetCurrentUserResidence)
 
 	// -- PAGES --
 	e.GET("/", controllers.Index)

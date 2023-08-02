@@ -102,3 +102,15 @@ func HandleUpdateUserInfo(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, user)
 }
+
+func HandleGetCurrentUserResidence(c echo.Context) error {
+	parseId := c.Param("id")
+
+	residence, err := handlers.GetCurrentResidence(parseId)
+
+	if err != nil {
+		return c.JSON(http.StatusNotFound, map[string]any{})
+	}
+
+	return c.JSON(http.StatusOK, residence)
+}
