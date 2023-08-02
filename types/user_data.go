@@ -7,8 +7,7 @@ import (
 
 type UserData struct {
 	gorm.Model
-	UserID       string `gorm:"unique"`
-	Residences   datatypes.JSON
-	ActivityData datatypes.JSON
-	CustomInfo   datatypes.JSON
+	UserID     string `gorm:"unique"`
+	Residences datatypes.JSON
+	Info       datatypes.JSON
 }

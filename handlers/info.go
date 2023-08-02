@@ -10,21 +10,25 @@ import (
 func UpdateInfo(id string, info map[string]any) (types.UserData, error) {
 	var userData types.UserData
 
-	if err := constants.DB.First(&userData, "user_id = ?", id).Select("custom_info").Error; err != nil {
+	if err := constants.DB.First(&userData, "user_id = ?", id).Select("info").Error; err != nil {
 		return types.UserData{}, err
 	}
 
 	var existingInfo map[string]any
 
 	// Unmarshal existing data into slice of maps
-	if err := json.Unmarshal(userData.CustomInfo, &existingInfo); err != nil {
+	if err := json.Unmarshal(userData.Info, &existingInfo); err != nil {
 		return types.UserData{}, err
 	}
 
-	for key := range info {
-		existingInfo[key] = info[key]
+	if existingInfo != nil {
+		for key := range info {
+			existingInfo[key] = info[key]
+		}
+	} else {
+		existingInfo = info
 	}
-
+	
 	// Marshal updated data back into JSON
 	existingInfoJSON, err := json.Marshal(existingInfo)
 	if err != nil {
@@ -33,7 +37,7 @@ func UpdateInfo(id string, info map[string]any) (types.UserData, error) {
 
 	// Update the data in the database
 	result := constants.DB.Model(&userData).Updates(types.UserData{
-		CustomInfo: existingInfoJSON,
+		Info: existingInfoJSON,
 	})
 
 	if result.Error != nil {

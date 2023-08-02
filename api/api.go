@@ -39,7 +39,7 @@ func HandleCreateUser(c echo.Context) error {
 		return err
 	}
 
-	userData, err := handlers.CreateUser(parseId, req.Residence, req.Activity, req.Info)
+	userData, err := handlers.CreateUser(parseId, req.Residence, req.Info)
 
 	if err != nil {
 		c.Error(err)
@@ -76,24 +76,6 @@ func HandleUpdateUserResidences(c echo.Context) error {
 	}
 
 	user, err := handlers.UpdateResidences(parseId, req.Residence)
-
-	if err != nil {
-		c.Error(err)
-		return err
-	}
-
-	return c.JSON(http.StatusOK, user)
-}
-
-func HandleUpdateUserActivities(c echo.Context) error {
-	parseId := c.Param("id")
-	req := new(types.Request)
-
-	if err := c.Bind(req); err != nil {
-		return err
-	}
-
-	user, err := handlers.UpdateActivites(parseId, req.Activity)
 
 	if err != nil {
 		c.Error(err)

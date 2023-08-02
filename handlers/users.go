@@ -32,7 +32,7 @@ func GetUser(id string) (types.UserData, error) {
 }
 
 // Create new user
-func CreateUser(id string, residence map[string]any, activity map[string]any, info map[string]any) (types.UserData, error) {
+func CreateUser(id string, residence map[string]any, info map[string]any) (types.UserData, error) {
 
 	// RESIDENCE
 	var residenceArray any
@@ -47,12 +47,6 @@ func CreateUser(id string, residence map[string]any, activity map[string]any, in
 		return types.UserData{}, err
 	}
 
-	// ACTIVITY 
-	activityJSON, err := json.Marshal(activity)
-	if err != nil {
-		return types.UserData{}, err
-	}
-
 	// INFO 
 	infoJSON, err := json.Marshal(info)
 	if err != nil {
@@ -62,8 +56,7 @@ func CreateUser(id string, residence map[string]any, activity map[string]any, in
 	userData := types.UserData{
 		UserID:       id,
 		Residences:   residencesJSON,
-		ActivityData: activityJSON,
-		CustomInfo:   infoJSON,
+		Info:   infoJSON,
 	}
 
 	result := constants.DB.Create(&userData)
