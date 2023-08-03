@@ -109,7 +109,7 @@ func HandleGetCurrentUserResidence(c echo.Context) error {
 	residence, err := handlers.GetCurrentResidence(parseId)
 
 	if err != nil {
-		return c.JSON(http.StatusNotFound, map[string]any{})
+		return c.JSON(http.StatusOK, map[string]any{})
 	}
 
 	return c.JSON(http.StatusOK, residence)

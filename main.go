@@ -50,6 +50,9 @@ func main() {
 	e.GET("/u/:id", controllers.User)
 	e.GET("/docs", controllers.ApiDocs)
 
+	// partial routes
+	e.GET("/users/:id/edit", controllers.EditUser)
+
 	port := os.Getenv("APP_PORT")
 	e.Logger.Fatal(e.Start(fmt.Sprintf("%s%s", ":", port)))
 }
