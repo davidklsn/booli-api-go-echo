@@ -1,6 +1,7 @@
 // Custom styling
 import "../css/main.css";
 import "../css/json_view.css"
+import "../css/json_editor.css"
 
 
 import "htmx.org";
@@ -17,6 +18,22 @@ window.onload = function () {
       const jsonData: object = JSON.parse(rawData);
       const options: FormatOptions = { linkUrls: true };
       elem.innerHTML = prettyPrintJson.toHtml(jsonData, options);
+    }
+  }
+
+  var jsonInput = document.getElementById("jsonInput");
+  if (jsonInput) {
+    const rawData = jsonInput.getAttribute("json");
+    const elem = document.getElementById("jsonInput");
+
+
+    if (elem && rawData) {
+      const jsonData: object = JSON.parse(rawData);
+      
+      // @ts-ignore
+      const editor = new JSONEditor(elem, {})
+      editor.set(jsonData)
+      editor.expandAll()
     }
   }
 };

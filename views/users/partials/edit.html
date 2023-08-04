@@ -1,0 +1,9 @@
+{{define "content"}}
+<div>
+  <form id="jsonForm">
+    <textarea id="jsonView" rows="10" class="w-full">{{.userData}}</textarea>
+    <input class="inline-block bg-blue text-white font-bold py-2 px-4 rounded mb-4" type="submit" value="Submit">
+    <a class="inline-block bg-red text-white font-bold py-2 px-4 rounded mb-4" href="/u/{{.userID}}">Avbryt</a>
+  </form>
+</div>
+{{end}}

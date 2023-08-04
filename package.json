@@ -4,6 +4,7 @@
     "esbuild": "^0.18.17",
     "fs": "^0.0.1-security",
     "htmx.org": "^1.9.4",
+    "jsoneditor": "^9.10.2",
     "pretty-print-json": "^2.0.2",
     "tailwind": "^4.0.0"
   },

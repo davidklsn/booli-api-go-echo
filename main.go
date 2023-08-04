@@ -29,6 +29,7 @@ func main() {
 	e.Use(middleware.Recover())
 
 	e.Static("/dist", "public/dist")
+	e.Static("/img", "public/img")
 
 	// -- API --
 	// Routes [:users]
@@ -47,11 +48,12 @@ func main() {
 
 	// -- PAGES --
 	e.GET("/", controllers.Index)
-	e.GET("/u/:id", controllers.User)
 	e.GET("/docs", controllers.ApiDocs)
 
-	// partial routes
-	e.GET("/users/:id/edit", controllers.EditUser)
+	//Users
+	e.GET("/u/:id", controllers.User)
+	e.GET("/u/:id/edit", controllers.EditUser)
+	e.POST("/u/:id/edit", controllers.EditUser)
 
 	port := os.Getenv("APP_PORT")
 	e.Logger.Fatal(e.Start(fmt.Sprintf("%s%s", ":", port)))
