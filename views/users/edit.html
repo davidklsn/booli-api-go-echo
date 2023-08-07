@@ -6,7 +6,7 @@
   <div id="jsonInput" json="{{ .userData }}"></div>
   
   <div class="mt-8">
-  <a class="inline-block bg-blue text-white font-bold py-2 px-4 rounded mb-4" href="/u/{{.userID}}">Spara</a>
+  <a class="inline-block bg-blue text-white font-bold py-2 px-4 rounded mb-4" href="#" hx-trigger="click" hx-before="postEditedJson">Spara</a>
   <a class="inline-block bg-red text-white font-bold py-2 px-4 rounded mb-4" href="/u/{{.userID}}">Avbryt</a>
   </div>
 </div>
