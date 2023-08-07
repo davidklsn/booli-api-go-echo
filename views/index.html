@@ -6,7 +6,13 @@
   docs
 </a>
 <div>
-  <table class="w-full text-left">
+<input class="form-control px-3 py-2" type="search" 
+       name="id" placeholder="Search with userIds.." 
+       hx-get="/u/search" 
+       hx-vals="{id: value}" 
+       hx-trigger="load, keyup changed delay:500ms, search" 
+       hx-target="#search-results">
+  <table class="w-full text-left" id="search-results">
     <thead>
       <tr>
         <th scope="col" class="px-6"></th>

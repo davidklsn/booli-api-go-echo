@@ -35,6 +35,7 @@ func main() {
 	// Routes [:users]
 	g := e.Group("/users")
 	e.GET("/users", api.HandleGetUsers)
+	e.GET("/users/search", api.HandleSearchUsers)
 	g.GET("/:id", api.HandleGetUser)
 	g.POST("/:id", api.HandleCreateUser)
 	g.DELETE("/:id", api.HandleDeleteUser)
@@ -52,6 +53,7 @@ func main() {
 
 	//Users
 	e.GET("/u/:id", controllers.User)
+	e.GET("/u/search", controllers.SearchUsers)
 	e.GET("/u/:id/edit", controllers.EditUser)
 	e.POST("/u/:id/edit", controllers.EditUser)
 

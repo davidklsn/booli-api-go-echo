@@ -2,9 +2,11 @@ package handlers
 
 import (
 	"encoding/json"
+	"strings"
 
 	"github.com/davidklsn/booli-api-go/constants"
 	"github.com/davidklsn/booli-api-go/types"
+	"gorm.io/gorm"
 )
 
 // Get all users
@@ -17,6 +19,25 @@ func GetUsers() ([]types.UserData, error) {
 	}
 
 	return usersData, nil
+}
+
+func GetUsersByIds(ids ...string) ([]types.UserData, error) {
+	var users []types.UserData
+	var result *gorm.DB
+
+	if len(ids) == 0 || ids[0] == "" {
+		result = constants.DB.Find(&users)
+	} else {
+		idString := ids[0]
+		idSlice := strings.Split(idString, ",")
+		result = constants.DB.Where("user_id IN (?)", idSlice).Find(&users)
+	}
+
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return users, nil
 }
 
 // Retrieve a user from the database given its ID
@@ -47,16 +68,16 @@ func CreateUser(id string, residence map[string]any, info map[string]any) (types
 		return types.UserData{}, err
 	}
 
-	// INFO 
+	// INFO
 	infoJSON, err := json.Marshal(info)
 	if err != nil {
 		return types.UserData{}, err
 	}
 
 	userData := types.UserData{
-		UserID:       id,
-		Residences:   residencesJSON,
-		Info:   infoJSON,
+		UserID:     id,
+		Residences: residencesJSON,
+		Info:       infoJSON,
 	}
 
 	result := constants.DB.Create(&userData)

@@ -56,3 +56,20 @@ func EditUser(c echo.Context) error {
 		"userData": string(userJSON),
 	})
 }
+
+func SearchUsers(c echo.Context) error {
+	ids := c.QueryParam("id")
+	users, err := handlers.GetUsersByIds(ids)
+
+	if err != nil {
+		c.String(http.StatusNotFound, "Could not find user")
+		return err
+	}
+
+	var view string = "/users/partials/search"
+
+	return c.Render(http.StatusOK, view, goview.M{
+		"title": "Sök användare",
+		"users": users,
+	})
+}

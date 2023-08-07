@@ -19,6 +19,18 @@ func HandleGetUsers(c echo.Context) error {
 	return c.JSON(http.StatusOK, users)
 }
 
+func HandleSearchUsers(c echo.Context) error {
+	ids := c.QueryParam("id")
+	users, err := handlers.GetUsersByIds(ids)
+
+	if err != nil {
+		c.String(http.StatusNotFound, "Could not find any users")
+		return err
+	}
+
+	return c.JSON(http.StatusOK, users)
+}
+
 func HandleGetUser(c echo.Context) error {
 	parseId := c.Param("id")
 	user, err := handlers.GetUser(parseId)
