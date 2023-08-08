@@ -35,11 +35,7 @@ func main() {
 	// -- API --
 	// Routes [:users]
 	g := e.Group("/users")
-	if os.Getenv("GO_ENV") == "production" {
-		g.Use(middleware.KeyAuth(func(key string, c echo.Context) (bool, error) {
-			return key == os.Getenv("AUTH_KEY"), nil
-		}))
-	}
+
 	e.GET("/users", api.HandleGetUsers)
 	e.GET("/users/search", api.HandleSearchUsers)
 	g.GET("/:id", api.HandleGetUser)
