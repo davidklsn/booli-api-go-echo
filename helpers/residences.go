@@ -55,3 +55,18 @@ func UpdateResidenceData(existingResidences *[]map[string]any, residence map[str
 
 	return nil
 }
+
+func SetCurrentResidence(existingResidences *[]map[string]any, residence map[string]any) error {
+	for _, existingResidence := range *existingResidences {
+		var sameResidence bool = hasSameResidenceID(existingResidence, residence) || hasSameAddress(existingResidence, residence)
+
+		if sameResidence {
+			for _, existingResidence := range *existingResidences {
+				existingResidence["currentResidence"] = false
+			}
+			existingResidence["currentResidence"] = true
+		}
+	}
+
+	return nil
+}
