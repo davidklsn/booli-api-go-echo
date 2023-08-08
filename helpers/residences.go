@@ -45,7 +45,6 @@ func UpdateResidenceData(existingResidences *[]map[string]any, residence map[str
 
 			updated = true
 		}
-
 	}
 
 	// If residence has not been updated, append it to the slice
@@ -65,6 +64,21 @@ func SetCurrentResidence(existingResidences *[]map[string]any, residence map[str
 				existingResidence["currentResidence"] = false
 			}
 			existingResidence["currentResidence"] = true
+		}
+	}
+
+	return nil
+}
+
+func SetSelectedResidence(existingResidences *[]map[string]any, residence map[string]any) error {
+	for _, existingResidence := range *existingResidences {
+		var sameResidence bool = hasSameResidenceID(existingResidence, residence) || hasSameAddress(existingResidence, residence)
+
+		if sameResidence {
+			for _, existingResidence := range *existingResidences {
+				existingResidence["selectedResidence"] = false
+			}
+			existingResidence["selectedResidence"] = true
 		}
 	}
 
