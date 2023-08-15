@@ -6,14 +6,14 @@ import (
 )
 
 func TestHasSameResidenceID(t *testing.T) {
-	res1 := map[string]any{"residenceId": "123"}
-	res2 := map[string]any{"residenceId": "123"}
+	res1 := map[string]any{"id": "123"}
+	res2 := map[string]any{"id": "123"}
 	if !hasSameResidenceID(res1, res2) {
 		t.Errorf("hasSameResidenceID failed when it should have passed")
 	}
 
-	res3 := map[string]any{"residenceId": "123"}
-	res4 := map[string]any{"residenceId": "456"}
+	res3 := map[string]any{"id": "123"}
+	res4 := map[string]any{"id": "456"}
 	if hasSameResidenceID(res3, res4) {
 		t.Errorf("hasSameResidenceID passed when it should have failed")
 	}
@@ -34,8 +34,8 @@ func TestHasSameAddress(t *testing.T) {
 }
 
 func TestUpdateResidenceData(t *testing.T) {
-	existing := map[string]any{"residenceId": "123", "streetAddress": "123 Street", "city": "New York"}
-	new := map[string]any{"residenceId": "123", "streetAddress": "456 Street", "city": "Los Angeles"}
+	existing := map[string]any{"id": "123", "streetAddress": "123 Street", "city": "New York"}
+	new := map[string]any{"id": "123", "streetAddress": "456 Street", "city": "Los Angeles"}
 
 	updateResidenceData(&existing, new)
 
@@ -46,10 +46,10 @@ func TestUpdateResidenceData(t *testing.T) {
 
 func TestUpdateResidenceDataAll(t *testing.T) {
 	existingResidences := []map[string]any{
-		{"residenceId": "123", "streetAddress": "123 Street", "city": "New York", "currentResidence": true},
-		{"residenceId": "456", "streetAddress": "456 Street", "city": "Los Angeles", "currentResidence": false},
+		{"id": "123", "streetAddress": "123 Street", "city": "New York", "currentResidence": true},
+		{"id": "456", "streetAddress": "456 Street", "city": "Los Angeles", "currentResidence": false},
 	}
-	newResidence := map[string]any{"residenceId": "789", "streetAddress": "789 Street", "city": "Chicago", "currentResidence": true}
+	newResidence := map[string]any{"id": "789", "streetAddress": "789 Street", "city": "Chicago", "currentResidence": true}
 
 	UpdateResidenceData(&existingResidences, newResidence)
 

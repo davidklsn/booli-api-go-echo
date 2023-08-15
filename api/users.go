@@ -97,6 +97,24 @@ func HandleUpdateUserResidences(c echo.Context) error {
 	return c.JSON(http.StatusOK, user)
 }
 
+func HandleDeleteUserResidence(c echo.Context) error {
+	parseId := c.Param("id")
+	req := new(types.Request)
+
+	if err := c.Bind(req); err != nil {
+		return err
+	}
+
+	user, err := handlers.DeleteUserResidence(parseId, req.Residence)
+
+	if err != nil {
+		c.Error(err)
+		return err
+	}
+
+	return c.JSON(http.StatusOK, user)
+}
+
 func HandleUpdateUserCurrentResidence(c echo.Context) error {
 	parseId := c.Param("id")
 	req := new(types.Request)
@@ -155,6 +173,18 @@ func HandleGetCurrentUserResidence(c echo.Context) error {
 	parseId := c.Param("id")
 
 	residence, err := handlers.GetCurrentResidence(parseId)
+
+	if err != nil {
+		return c.JSON(http.StatusOK, map[string]any{})
+	}
+
+	return c.JSON(http.StatusOK, residence)
+}
+
+func HandleGetSelectedUserResidence(c echo.Context) error {
+	parseId := c.Param("id")
+
+	residence, err := handlers.GetSelectedResidence(parseId)
 
 	if err != nil {
 		return c.JSON(http.StatusOK, map[string]any{})

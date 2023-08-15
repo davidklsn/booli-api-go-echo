@@ -48,7 +48,10 @@ func main() {
 	g.PUT("/:id/update_selected_residence", api.HandleUpdateUserSelectedResidence)
 	g.PUT("/:id/update_info", api.HandleUpdateUserInfo)
 
+	g.DELETE("/:id/delete_residence", api.HandleDeleteUserResidence)
+
 	g.GET("/:id/current_residence", api.HandleGetCurrentUserResidence)
+	g.GET("/:id/selected_residence", api.HandleGetSelectedUserResidence)
 
 	// -- PAGES --
 	e.GET("/", controllers.Index)

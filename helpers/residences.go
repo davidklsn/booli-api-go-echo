@@ -1,7 +1,7 @@
 package helpers
 
 func hasSameResidenceID(res1, res2 map[string]any) bool {
-	return res1["residenceId"] == res2["residenceId"]
+	return res1["id"] == res2["id"]
 }
 
 func hasSameAddress(res1, res2 map[string]any) bool {
@@ -51,6 +51,26 @@ func UpdateResidenceData(existingResidences *[]map[string]any, residence map[str
 	if !updated {
 		*existingResidences = append(*existingResidences, residence)
 	}
+
+	return nil
+}
+
+func DeleteResidence(existingResidences *[]map[string]any, residence map[string]any) error {
+	var updated bool = false // Flag to check if residence has been updated
+
+	for i, existingResidence := range *existingResidences {
+		if updated {
+			break
+		}
+
+		var sameResidence bool = hasSameResidenceID(existingResidence, residence) || hasSameAddress(existingResidence, residence)
+		if sameResidence {
+			*existingResidences = append((*existingResidences)[:i], (*existingResidences)[i+1:]...)
+
+			updated = true
+		}
+	}
+
 
 	return nil
 }
